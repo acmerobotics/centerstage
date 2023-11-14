@@ -67,7 +67,7 @@ public class BasicOpMode_Linear extends LinearOpMode {
         Drive drive = new Drive();
         DcMotorA.setDirection(DcMotorSimple.Direction.REVERSE);
         DcMotorB.setDirection(DcMotorSimple.Direction.REVERSE);
-        //Servo s2 = hardwareMap.get(Servo.class, "S2");
+        //servo s2 = hardwareMap.get(Servo.class, "S2");
         drive.init(hardwareMap);
         waitForStart();
         // run until the end of the match (driver presses STOP)
@@ -75,54 +75,16 @@ public class BasicOpMode_Linear extends LinearOpMode {
             telemetry.addData("m0",DcMotorA.getPower());
 //            DcMotorA.setPower(0.3);
             //s2.setPosition(2);
-//            if (gamepad1.a){
-//                DcMotorA.setPower(.8);
-//                DcMotorB.setPower(.5);
-//                DcMotorC.setPower(.7);
-//                DcMotorD.setPower(-1);
 //
-//            }
-
-
-
-            if (gamepad1.dpad_up){
-                DcMotorA.setPower(-0.5);
-                DcMotorB.setPower(-0.5);
-                DcMotorC.setPower(0.5);
-                DcMotorD.setPower(0.5);
-                telemetry.addLine("Dpad up Pressed");
+            if (gamepad1.dpad_right){
+                drive.runTime.reset();
+                drive.strafeRightOneTile();
             }
-
-            else if (gamepad1.dpad_down){
-                DcMotorA.setPower(0.5);
-                DcMotorB.setPower(0.5);
-                DcMotorC.setPower(-0.5);
-                DcMotorD.setPower(-0.5);
-                telemetry.addLine("Dpad down Pressed");
+            if (gamepad1.dpad_left){
+                 drive.runTime.reset();
+                drive.strafeLeftOneTile();
             }
-            else if (gamepad1.dpad_right){
-                DcMotorA.setPower(1);
-                DcMotorB.setPower(-1);
-                DcMotorC.setPower(1);
-                DcMotorD.setPower(-1);
-                telemetry.addLine("Dpad right Pressed");
-            }
-             else if (gamepad1.dpad_left){
-                DcMotorA.setPower(-1);
-                DcMotorB.setPower(1);
-                DcMotorC.setPower(-1);
-                DcMotorD.setPower(1);
-                telemetry.addLine("Dpad left Pressed");
-            }
-
-            else{
-                DcMotorA.setPower(0);
-                DcMotorB.setPower(0);
-                DcMotorC.setPower(0);
-                DcMotorD.setPower(0);
-
-            }
-            if (gamepad1.left_stick_y != 0){
+             if (gamepad1.left_stick_y != 0){
                 DcMotorA.setPower(-gamepad1.left_stick_y);
                 DcMotorB.setPower(-gamepad1.left_stick_y);
                 DcMotorC.setPower(-gamepad1.left_stick_y);
@@ -130,13 +92,13 @@ public class BasicOpMode_Linear extends LinearOpMode {
                 //drive.moveForward();
 
             }
-//             else if (gamepad1.left_stick_y == 0) {
-//                DcMotorA.setPower(0);
-//                DcMotorB.setPower(0);
-//                DcMotorC.setPower(0);
-//                DcMotorD.setPower(0);
-            //}
-            else if (gamepad1.right_stick_x != 0){
+             if (gamepad1.left_stick_y == 0) {
+                DcMotorA.setPower(0);
+                DcMotorB.setPower(0);
+                DcMotorC.setPower(0);
+                DcMotorD.setPower(0);
+            }
+            if (gamepad1.right_stick_x != 0){
                 DcMotorA.setPower(gamepad1.right_stick_x);
                 DcMotorB.setPower(gamepad1.right_stick_x);
                 DcMotorC.setPower(-gamepad1.right_stick_x);
@@ -151,7 +113,7 @@ public class BasicOpMode_Linear extends LinearOpMode {
 
             // Up is Negative, and Down is Positive
             telemetry.addData("Y Sitck Value",gamepad1.left_stick_y);
-            telemetry.addData("X Sitck Value",gamepad1.left_stick_x);
+            telemetry.addData("X Sitck Value",gamepad1.right_stick_x);
             telemetry.addData("Distance Traveled",drive.distanceTraveled());
             telemetry.update();
 
