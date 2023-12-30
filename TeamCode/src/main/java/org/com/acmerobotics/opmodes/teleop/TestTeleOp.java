@@ -22,18 +22,27 @@ public class TestTeleOp extends LinearOpMode {
         while(opModeIsActive()) {
 
             //}
-//            if (gamepad1.left_trigger == 1){
-            telemetry.addLine("L trigger");
-            DcMotorE.setTargetPosition(591);
-            DcMotorE.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            DcMotorE.setPower(1);
+            if(gamepad1.a){
+                telemetry.addLine("L trigger");
+                DcMotorE.setTargetPosition(591);
+                DcMotorE.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                DcMotorE.setPower(1);
+
+            }
+            if(gamepad1.b){
+                telemetry.addLine("L trigger");
+                DcMotorE.setTargetPosition(0);
+                DcMotorE.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                DcMotorE.setPower(1);
+
+            }
 
 
             //}
 //            if (DcMotorE.getCurrentPosition() >= -144){
 //                DcMotorE.setPower(0);
 
-//            }
+//
 
             telemetry.update();
             telemetry.addData("Pos", DcMotorE.getCurrentPosition());
