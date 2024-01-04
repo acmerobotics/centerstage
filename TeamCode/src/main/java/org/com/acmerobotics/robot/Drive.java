@@ -3,6 +3,7 @@ package org.com.acmerobotics.robot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class Drive {
@@ -36,6 +37,7 @@ public class Drive {
         runTime.reset();
         DcMotorA.setDirection(DcMotorSimple.Direction.REVERSE);
         DcMotorB.setDirection(DcMotorSimple.Direction.REVERSE);
+        //Servo gripServo = hardwareMap.get(Servo.class, "S0");
     }
     public void moveForwardOneTile() {
         if (runTime.seconds() < 0.5) {
@@ -136,12 +138,6 @@ public class Drive {
 
 
 
-
-
-
-
-
-
 //    public void move2Tiles(){
 //
 //        if(runTime.seconds() < 1.72){
@@ -159,37 +155,6 @@ public class Drive {
 //        }
 //
 //    }
-//    public void strafeLeft(){
-//        if(runTime.seconds() < 1){
-//            DcMotorA.setPower(0.5);
-//            DcMotorB.setPower(-0.5);
-//            DcMotorC.setPower(-0.5);
-//            DcMotorD.setPower(0.5);
-//        }
-//
-//        if(runTime.seconds() > 1){
-//            DcMotorA.setPower(0);
-//            DcMotorB.setPower(0);
-//            DcMotorC.setPower(0);
-//            DcMotorD.setPower(0);
-//        }
-//    }
-
-
-//    public void strafeRight(){
-//        if(runTime.seconds() < 1){
-//            DcMotorA.setPower(-0.5);
-//            DcMotorB.setPower(0.5);
-//            DcMotorC.setPower(0.5);
-//            DcMotorD.setPower(-0.5);
-//        }
-
-//        if(runTime.seconds() > 1){
-//            DcMotorA.setPower(0);
-//            DcMotorB.setPower(0);
-//            DcMotorC.setPower(0);
-//            DcMotorD.setPower(0);
-//        }
 }
 
 
