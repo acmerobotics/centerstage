@@ -33,7 +33,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.com.acmerobotics.robot.Drive;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -56,26 +58,50 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class BasicOpMode_Linear extends LinearOpMode {
 
-
-
     @Override
     public void runOpMode() {
         DcMotor DcMotorA = hardwareMap.get(DcMotor.class, "m0");
         DcMotor DcMotorB = hardwareMap.get(DcMotor.class, "m1");
         DcMotor DcMotorC = hardwareMap.get(DcMotor.class, "m2");
         DcMotor DcMotorD = hardwareMap.get(DcMotor.class, "m3");
+        DcMotor DcMotorE = hardwareMap.get(DcMotor.class,"m4");
+        //^for arm
         Drive drive = new Drive();
         DcMotorA.setDirection(DcMotorSimple.Direction.REVERSE);
         DcMotorB.setDirection(DcMotorSimple.Direction.REVERSE);
-        //servo s2 = hardwareMap.get(Servo.class, "S2");
+        Servo gripServo = hardwareMap.get(Servo.class, "S0");
+        Servo droneServo = hardwareMap.get(Servo.class, "S1");
+        Servo wristServo = hardwareMap.get(Servo.class, "S2");
         drive.init(hardwareMap);
+//        DcMotorA.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        DcMotorA.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        DcMotorB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        DcMotorB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        DcMotorC.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        DcMotorC.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        DcMotorD.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        DcMotorD.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        DcMotorE.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        DcMotorE.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        int  scorePos = 591;
+        int  downPos = 0;
+
+
+//        boolean lastMovement = false, currMovement = false;
+//        boolean downPosition = true;
         waitForStart();
         // run until the end of the match (driver presses STOP)
+
         while (opModeIsActive()) {
-            telemetry.addData("m0",DcMotorA.getPower());
-//            DcMotorA.setPower(0.3);
-            //s2.setPosition(2);
-//
+          telemetry.addData("Motor A Pos:", DcMotorA.getCurrentPosition());
+          telemetry.addData("Motor B Pos:", DcMotorB.getCurrentPosition());
+          telemetry.addData("Motor C Pos:", DcMotorC.getCurrentPosition());
+          telemetry.addData("Motor D Pos:", DcMotorD.getCurrentPosition());
+          telemetry.addData("Motor E Pos:", DcMotorE.getCurrentPosition());
+
+            boolean lastMovement = false, currMovement = false;
+            boolean downPosition = true;
+
             if (gamepad1.dpad_right){
                 drive.runTime.reset();
                 drive.strafeRightOneTile();
@@ -89,8 +115,6 @@ public class BasicOpMode_Linear extends LinearOpMode {
                 DcMotorB.setPower(-gamepad1.left_stick_y);
                 DcMotorC.setPower(-gamepad1.left_stick_y);
                 DcMotorD.setPower(-gamepad1.left_stick_y);
-                //drive.moveForward();
-
             }
              if (gamepad1.left_stick_y == 0) {
                 DcMotorA.setPower(0);
@@ -111,13 +135,57 @@ public class BasicOpMode_Linear extends LinearOpMode {
                 DcMotorD.setPower(0);
             }
 
+            if (gamepad1.a){
+                DcMotorA.setPower(-0.3);
+                DcMotorB.setPower(0.3);
+                DcMotorC.setPower(0.3);
+                DcMotorD.setPower(-0.3);
+            }
+
+            if (gamepad1.b){
+                gripServo.setPosition(0.5);
+            }
+            if (gamepad1.x){
+                gripServo.setPosition(0.8);
+            }
+
+            if (gamepad1.y){
+                droneServo.setPosition(.5);
+            }
+
+
+            if(gamepad1.right_bumper){
+                telemetry.addLine("L trigger");
+                DcMotorE.setTargetPosition(scorePos);
+                DcMotorE.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                DcMotorE.setPower(1);
+                wristServo.setPosition(1);
+
+            }
+            if(gamepad1.right_stick_button){
+                telemetry.addLine("L trigger");
+                DcMotorE.setTargetPosition(downPos);
+                DcMotorE.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                DcMotorE.setPower(1);
+                wristServo.setPosition(0);
+
+            }
+
+//            else{
+//                telemetry.addLine("L trigger");
+//                DcMotorE.setTargetPosition(downPos);
+//                DcMotorE.setPower(0.3);
+//            }
+
             // Up is Negative, and Down is Positive
             telemetry.addData("Y Sitck Value",gamepad1.left_stick_y);
             telemetry.addData("X Sitck Value",gamepad1.right_stick_x);
             telemetry.addData("Distance Traveled",drive.distanceTraveled());
             telemetry.update();
+            telemetry.addData("Position A",DcMotorA.getCurrentPosition());
+            if(gamepad1.y) {
 
-
+            }
         }
     }
 }
