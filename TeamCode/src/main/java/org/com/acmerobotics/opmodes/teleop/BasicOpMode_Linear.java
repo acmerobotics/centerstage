@@ -83,8 +83,9 @@ public class BasicOpMode_Linear extends LinearOpMode {
 //        DcMotorD.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         DcMotorE.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         DcMotorE.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        int  scorePos = 591;
-        int  downPos = 0;
+        int  scorePos = -513;
+        int  downPos = -10;
+        int midPos = -52;
 
 
 //        boolean lastMovement = false, currMovement = false;
@@ -102,14 +103,28 @@ public class BasicOpMode_Linear extends LinearOpMode {
             boolean lastMovement = false, currMovement = false;
             boolean downPosition = true;
 
+            if (gamepad1.dpad_up){
+                wristServo.setPosition(1);
+            }
+            if (gamepad1.dpad_down){
+                wristServo.setPosition(0.2);
+            }
+
             if (gamepad1.dpad_right){
-                drive.runTime.reset();
                 drive.strafeRightOneTile();
             }
             if (gamepad1.dpad_left){
                  drive.runTime.reset();
                 drive.strafeLeftOneTile();
             }
+            if( (gamepad1.right_stick_x != 0) || (gamepad1.left_stick_y != 0) ) {
+                DcMotorE.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                DcMotorE.setTargetPosition(midPos);
+                DcMotorE.setPower(0.3);
+            }
+
+
+
              if (gamepad1.left_stick_y != 0){
                 DcMotorA.setPower(-gamepad1.left_stick_y);
                 DcMotorB.setPower(-gamepad1.left_stick_y);
@@ -143,14 +158,14 @@ public class BasicOpMode_Linear extends LinearOpMode {
             }
 
             if (gamepad1.b){
-                gripServo.setPosition(0.5);
+                gripServo.setPosition(0);
             }
             if (gamepad1.x){
-                gripServo.setPosition(0.8);
+                gripServo.setPosition(0.2);
             }
 
             if (gamepad1.y){
-                droneServo.setPosition(.5);
+                droneServo.setPosition(-0.3);
             }
 
 
@@ -158,17 +173,19 @@ public class BasicOpMode_Linear extends LinearOpMode {
                 telemetry.addLine("L trigger");
                 DcMotorE.setTargetPosition(scorePos);
                 DcMotorE.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                DcMotorE.setPower(1);
-                wristServo.setPosition(1);
+                DcMotorE.setPower(0.5);
 
             }
             if(gamepad1.right_stick_button){
                 telemetry.addLine("L trigger");
                 DcMotorE.setTargetPosition(downPos);
                 DcMotorE.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                DcMotorE.setPower(1);
-                wristServo.setPosition(0);
+                DcMotorE.setPower(0.3);
 
+            }
+
+            if(gamepad1.left_stick_button){
+//                wristServo.setPosition(1);
             }
 
 //            else{
